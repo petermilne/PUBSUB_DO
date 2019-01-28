@@ -5,12 +5,13 @@
 
 #include "zhelpers.hpp"
 
-int main () {
+int main (int argc, char* argv[]) {
     //  Prepare our context and subscriber
+   const char* ch = argc > 1? argv[1]: "";
     zmq::context_t context(1);
     zmq::socket_t subscriber (context, ZMQ_SUB);
     subscriber.connect("tcp://localhost:5563");
-    subscriber.setsockopt( ZMQ_SUBSCRIBE, "B", 1);
+   subscriber.setsockopt( ZMQ_SUBSCRIBE, ch, strlen(ch));
 
     while (1) {
  
