@@ -15,8 +15,10 @@ int main () {
     int do32 = 0;
 
     while (1) {
-	char buf[80]; sprintf(buf, "%d", do32++);
-        s_send (publisher, buf);
+        zmq::message_t message(sizeof(int));
+	memcpy(message.data(), &do32, sizeof(int));
+	publisher.send(message);
+	++do32;
     }
     return 0;
 }
