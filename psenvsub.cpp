@@ -8,11 +8,13 @@
 #include <assert.h>
 
 int main (int argc, char* argv[]) {
-    //  Prepare our context and subscriber
-    int limit = argc > 1? atoi(argv[1]): -1;
+    const char* uri = argc > 1? argv[1]: "tcp://localhost:5563"; 
+    int limit = argc > 2? atoi(argv[2]): -1;
+
+    std::cout << uri << " limit:" << limit << std::endl;
     zmq::context_t context(1);
     zmq::socket_t subscriber (context, ZMQ_SUB);
-    subscriber.connect("tcp://localhost:5563");
+    subscriber.connect(uri);
     subscriber.setsockopt( ZMQ_SUBSCRIBE, "", 0);
 
     int do32;

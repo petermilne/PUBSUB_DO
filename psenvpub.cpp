@@ -6,11 +6,16 @@
 
 #include "zhelpers.hpp"
 
-int main () {
+int main (int argc, const char* argv[]) {
+    const char* uri = argc > 1? argv[1]: "tcp://*:5563";
+    int limit = argc > 2? atoi(argv[2]): -1;
+
+    std::cout << "publish " << uri << std::endl;
+
     //  Prepare our context and publisher
     zmq::context_t context(1);
     zmq::socket_t publisher(context, ZMQ_PUB);
-    publisher.bind("tcp://*:5563");
+    publisher.bind(uri);
 
     int do32 = 0;
 
